@@ -3,10 +3,36 @@ const filesystem = [{
   name: 'public',
   path: '/',
   children: [{
-    type: 'file',
-    name: 'image-1.jpg',
-    ext: 'jpg'
-  }]
+      type: 'file',
+      name: 'image-1.jpg',
+      ext: 'jpg',
+      path: 'public/image-1.jpg'
+    },
+    {
+      type: 'file',
+      name: 'image-2.jpg',
+      ext: 'jpg',
+      path: 'public/image-2.jpg'
+    },
+    {
+      type: 'dir',
+      name: 'images',
+      path: 'public/',
+      children: [{
+          type: 'file',
+          name: 'image-3.jpg',
+          ext: 'jpg',
+          path: 'public/images/image-3.jpg'
+        },
+        {
+          type: 'file',
+          name: 'image-4.jpg',
+          ext: 'jpg',
+          path: 'public/images/image-4.jpg'
+        }
+      ]
+    }
+  ]
 }]
 
 export default {
@@ -17,7 +43,7 @@ export default {
   },
   mutations: {
     setFilesystem(state, payload) {
-      state.storage = payload;
+      state.filesystem = payload;
     },
     setFolderContent(state, payload) {
       state.folderContent = payload;
@@ -53,6 +79,7 @@ export default {
 
   getters: {
     getFilesystem(state) {
+      console.log(state.filesystem)
       return state.filesystem;
     },
     getFolderContent(state) {

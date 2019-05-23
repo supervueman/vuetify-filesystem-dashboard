@@ -1,10 +1,10 @@
 <template lang="pug">
 	v-flex
 		v-card
-			v-card-title.title Вы действительно хотите удалить {{name}}?
+			v-card-title.title Do you really want to delete {{name}}?
 			v-card-actions
-				v-btn.ml-2(color="error" @click="remove") Удалить
-				v-btn(color="primary" @click="cancel") Отмена
+				v-btn.ml-2(color="error" @click="remove") Delete
+				v-btn(color="primary" @click="cancel") Cancel
 </template>
 
 <script>

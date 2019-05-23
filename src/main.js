@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import '@mdi/font/css/materialdesignicons.css';
 import './plugins/vuetify'
 import commonComponentsRequire from '@/functions/commonComponentsRequire';
 import App from './App.vue';

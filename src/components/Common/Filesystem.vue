@@ -4,7 +4,7 @@
       v-card.xl12.lg12.md12
         v-card-title.pb-0
           v-layout.column
-            div.mb-2 Public {{currentFullPath}}
+            div.mb-2 Current path: {{currentFullPath}}
         v-card-text
           v-layout
             v-flex.xl3.lg3.md3
@@ -18,24 +18,24 @@
                             @click="isCreateFolderDialog = true"
                             v-on="on"
                           ) folder
-                        span Создать папку
+                        span Create folder
                       v-tooltip(top)
                         template(v-slot:activator="{ on }")
                           v-icon.mr-2.storage-control(
                             v-on="on"
                             @click="triggerForUploadFile"
                           ) mdi-upload
-                        span Загрузить файл
+                        span Upload file
                       v-tooltip(top v-if="currentFile.type")
                         template(v-slot:activator="{ on }")
-                          a.file-download(:href="currentFile.relativePath" download v-on="on")
+                          a.file-download(:href="currentFile.path" download v-on="on")
                             v-icon.storage-control mdi-download
-                        span Скачать файл
+                        span Download file
                     div
                       v-tooltip(top)
                         template(v-slot:activator="{ on }")
                           v-icon.storage-control(@click="filesystemReload" v-on="on") replay
-                        span Обновить
+                        span Reload
                 v-flex.xl3.lg3.md3
                   v-treeview(
                     v-model="tree"
@@ -51,7 +51,7 @@
                   )
                     template(v-slot:prepend="{ item, open }")
                       div.treeview-node-overlay(
-                        :class="{'active-treeview-node': currentFullPath === item.relativePath}"
+                        :class="{'active-treeview-node': currentFullPath === item.path}"
                         @click="fetchFolderContent(item)"
                         @contextmenu.prevent="fetchContextMenu($event, item)"
                       )
@@ -76,11 +76,11 @@
                   @dblclick="selectFile(file)"
                 )
                   v-img(
-                    :src="`/static/lawyers/${profile.id}/${file.relativePath}`"
+                    :src="`/static/lawyers/${file.path}`"
                     aspect-ratio="1"
                   )
                   v-flex.px-2.file-name(
-                    :class="{'active-card-file': currentFullPath === file.relativePath}"
+                    :class="{'active-card-file': currentFullPath === file.path}"
                   ) {{file.name}}
       v-menu(
         v-model="isContext"
@@ -136,16 +136,16 @@ export default {
     open: [],
     tree: [],
     files: {
-      ".html": "mdi-language-html5",
-      ".js": "mdi-nodejs",
-      ".json": "mdi-json",
-      ".md": "mdi-markdown",
-      ".pdf": "mdi-file-pdf",
-      ".png": "mdi-file-image",
-      ".jpg": "mdi-file-image",
-      ".jpeg": "mdi-file-image",
-      ".txt": "mdi-file-document-outline",
-      ".xls": "mdi-file-excel"
+      html: "mdi-language-html5",
+      js: "mdi-nodejs",
+      json: "mdi-json",
+      md: "mdi-markdown",
+      pdf: "mdi-file-pdf",
+      png: "mdi-file-image",
+      jpg: "mdi-file-image",
+      jpeg: "mdi-file-image",
+      txt: "mdi-file-document-outline",
+      xls: "mdi-file-excel"
     },
     currentFolder: {},
     currentFile: {},
@@ -159,14 +159,14 @@ export default {
 
     folderData: {
       type: "dir",
-      relativePath: "/",
+      path: "/",
       name: "",
       ext: "",
       children: []
     },
     fileData: {
       type: "file",
-      relativePath: "/",
+      path: "/",
       ext: "",
       name: ""
     }
@@ -194,9 +194,7 @@ export default {
      */
     fetchFolderContent(item) {
       if (item.type === "file") {
-        const directoriesArr = item.relativePath
-          .split("/")
-          .slice(this.length, -1);
+        const directoriesArr = item.path.split("/").slice(this.length, -1);
 
         let dir = {};
         let filesystem = this.filesystem;
@@ -224,14 +222,14 @@ export default {
         this.$store.dispatch("filesystem/fetchFolderContent", dir.children);
         this.currentFolder = dir;
         this.currentFile = item;
-        this.currentFolderPath = dir.relativePath;
+        this.currentFolderPath = dir.path;
       } else {
         this.$store.dispatch("filesystem/fetchFolderContent", item.children);
         this.currentFolder = item;
         this.currentFile = {};
-        this.currentFolderPath = item.relativePath;
+        this.currentFolderPath = item.path;
       }
-      this.currentFullPath = item.relativePath;
+      this.currentFullPath = item.path;
     },
 
     fetchContextMenu(event, item) {

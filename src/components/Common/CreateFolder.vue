@@ -1,17 +1,17 @@
 <template lang="pug">
   v-card
-    v-card-title Папка: {{folderName}}
+    v-card-title Folder: {{folderName}}
     v-card-text
       v-text-field(
         v-model="folderName"
-        label="Введите название папки"
+        label="Enter folder name"
         :error-messages="folderNameErrors"
         @input="$v.folderName.$touch()"
         @blur="$v.folderName.$touch()"
       )
     v-card-actions
-      v-btn.ml-2(@click="createFolder" color="primary") Создать
-      v-btn(@click="cancel") Отмена
+      v-btn.ml-2(@click="createFolder" color="primary") Create
+      v-btn(@click="cancel") Cancel
 </template>
 
 <script>
@@ -38,8 +38,8 @@ export default {
       const errors = [];
       if (!this.$v.folderName.$dirty) return errors;
       !this.$v.folderName.minLength &&
-        errors.push("Название директории должно быть не менее 3 символов");
-      !this.$v.folderName.required && errors.push("Обязательное поле");
+        errors.push("Directory name must be at least 3 characters");
+      !this.$v.folderName.required && errors.push("Required field");
       return errors;
     }
   },
