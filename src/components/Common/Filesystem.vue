@@ -76,12 +76,12 @@
                   @dblclick="selectFile(file)"
                 )
                   v-img(
-                    :src="`/static/lawyers/${file.path}`"
+                    :src="`/static/${file.path}`"
                     aspect-ratio="1"
                   )
                   v-flex.px-2.file-name(
                     :class="{'active-card-file': currentFullPath === file.path}"
-                  ) {{file.name}}
+                  ) {{file.path}}
       v-menu(
         v-model="isContext"
         :position-x="x"

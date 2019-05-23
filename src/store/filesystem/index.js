@@ -1,34 +1,34 @@
 const filesystem = [{
   type: 'dir',
-  name: 'public',
+  name: 'files',
   path: '/',
   children: [{
       type: 'file',
       name: 'image-1.jpg',
       ext: 'jpg',
-      path: 'public/image-1.jpg'
+      path: 'files/image-1.jpg'
     },
     {
       type: 'file',
       name: 'image-2.jpg',
       ext: 'jpg',
-      path: 'public/image-2.jpg'
+      path: 'files/image-2.jpg'
     },
     {
       type: 'dir',
       name: 'images',
-      path: 'public/',
+      path: '/images',
       children: [{
           type: 'file',
           name: 'image-3.jpg',
           ext: 'jpg',
-          path: 'public/images/image-3.jpg'
+          path: 'files/images/image-3.jpg'
         },
         {
           type: 'file',
           name: 'image-4.jpg',
           ext: 'jpg',
-          path: 'public/images/image-4.jpg'
+          path: 'files/images/image-4.jpg'
         }
       ]
     }
