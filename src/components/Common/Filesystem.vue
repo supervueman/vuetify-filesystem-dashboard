@@ -179,6 +179,9 @@ export default {
       return this.$store.getters["filesystem/getFolderContent"];
     }
   },
+  beforeCreate() {
+    this.$store.dispatch("filesystem/fetchFilesystem");
+  },
   methods: {
     /**
      * @function fetchFolderContent
@@ -279,9 +282,6 @@ export default {
     triggerForUploadFile() {
       this.$refs.file.click();
     }
-  },
-  beforeCreate() {
-    this.$store.dispatch("filesystem/fetchFilesystem");
   }
 };
 </script>

@@ -22,7 +22,12 @@ export default {
   validations: {
     folderName: { required, minLength: minLength(3) }
   },
-  props: ["isActive"],
+  props: {
+    isActive: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       folderName: ""

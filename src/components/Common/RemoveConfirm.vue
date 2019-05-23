@@ -9,7 +9,16 @@
 
 <script>
 export default {
-  props: ["name", "isActive"],
+  props: {
+    name: {
+      type: String,
+      default: ""
+    },
+    isActive: {
+      type: Boolean,
+      default: false
+    }
+  },
   methods: {
     remove() {
       this.$emit("remove");
