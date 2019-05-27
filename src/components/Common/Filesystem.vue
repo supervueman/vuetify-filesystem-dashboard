@@ -10,32 +10,13 @@
             v-flex.xl3.lg3.md3
               v-layout.column
                 v-flex.mb-4
-                  v-layout.justify-space-between
-                    div
-                      v-tooltip(top)
-                        template(v-slot:activator="{ on }")
-                          v-icon.mr-2.storage-control(
-                            @click="isCreateFolderDialog = true"
-                            v-on="on"
-                          ) folder
-                        span Create folder
-                      v-tooltip(top)
-                        template(v-slot:activator="{ on }")
-                          v-icon.mr-2.storage-control(
-                            v-on="on"
-                            @click="triggerForUploadFile"
-                          ) mdi-upload
-                        span Upload file
-                      v-tooltip(top v-if="currentFile.type")
-                        template(v-slot:activator="{ on }")
-                          a.file-download(:href="currentFile.path" download v-on="on")
-                            v-icon.storage-control mdi-download
-                        span Download file
-                    div
-                      v-tooltip(top)
-                        template(v-slot:activator="{ on }")
-                          v-icon.storage-control(@click="filesystemReload" v-on="on") replay
-                        span Reload
+                  treeview-controls(
+                    :currentFileType="currentFile.type"
+                    :currentFile="currentFile.relativePath"
+                    @openDialogForCreateFolder="openDialogForCreateFolder"
+                    @triggerForUploadFile="triggerForUploadFile"
+                    @filesystemReload="filesystemReload"
+                  )
                 v-flex.xl3.lg3.md3
                   v-treeview(
                     v-model="tree"
@@ -89,27 +70,12 @@
         absolute
         offset-y
       )
-        v-list
-          v-list-tile(
-            v-if="!currentFile.type"
-            @click="triggerForUploadFile"
-          )
-            v-icon.mr-2 mdi-upload
-            div Загрузить файл
-          v-list-tile(
-            v-if="currentFile.type"
-          )
-            v-icon.mr-2 mdi-download
-            a.file-download(:href="currentFile.relativePath" download) Скачать файл
-          v-list-tile(
-            v-if="!currentFile.type"
-            @click="isCreateFolderDialog = true"
-          )
-            v-icon.mr-2 folder
-            div Создать папку
-          v-list-tile(@click="isRemoveConfirmDialog = true")
-            v-icon.mr-2 delete
-            div Удалить
+        context-menu-list(
+          :currentFile="currentFile"
+          @triggerForUploadFile="triggerForUploadFile"
+          @openDialogForCreateFolder="openDialogForCreateFolder"
+          @openDialogForRemoveConfirm="openDialogForRemoveConfirm"
+        )
     v-dialog(v-model="isRemoveConfirmDialog" max-width="500px")
       remove-confirm(
         @remove="removeFileOrFolder"
@@ -279,6 +245,14 @@ export default {
 
     triggerForUploadFile() {
       this.$refs.file.click();
+    },
+
+    openDialogForRemoveConfirm(bool) {
+      this.isRemoveConfirmDialog = bool;
+    },
+
+    openDialogForCreateFolder(bool) {
+      this.isCreateFolderDialog = bool;
     }
   }
 };
